@@ -4,6 +4,7 @@ require 'credova/api'
 require 'credova/base'
 require 'credova/client'
 require 'credova/error'
+require 'credova/payments'
 require 'credova/response'
 
 module Credova
