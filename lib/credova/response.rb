@@ -1,6 +1,8 @@
 module Credova
   class Response
 
+    attr_accessor :success
+
     def initialize(response)
       @response = response
 
@@ -12,6 +14,7 @@ module Credova
       when Net::HTTPNoContent
         Credova::Error::NoContent.new(@response.body)
       when Net::HTTPOK, Net::HTTPSuccess
+        self.success = true
         _data = JSON.parse(@response.body)
 
         @data = case
@@ -35,6 +38,10 @@ module Credova
 
     def fetch(key)
       @data.fetch(key)
+    end
+
+    def success?
+      !!success
     end
 
   end
