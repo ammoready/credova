@@ -47,7 +47,7 @@ module Credova
     end
 
     def content_type_header(type)
-      { 'Content-Type' => ['application/', type].join }
+      { 'Content-Type' => type }
     end
 
     def request_url(endpoint)

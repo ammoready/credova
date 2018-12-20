@@ -25,7 +25,7 @@ module Credova
       endpoint = ENDPOINTS[:create]
       headers = [
         *auth_header(client.access_token),
-        *content_type_header('json'),
+        *content_type_header('application/json'),
       ].to_h
 
       post_request(endpoint, options, headers)
@@ -49,7 +49,7 @@ module Credova
       endpoint = ENDPOINTS[:set_delivery_information] % public_id
       headers = [
         *auth_header(client.access_token),
-        *content_type_header('json'),
+        *content_type_header('application/json'),
       ].to_h
 
       post_request(endpoint, options, headers)

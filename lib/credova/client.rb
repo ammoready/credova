@@ -30,7 +30,7 @@ module Credova
       response = post_request(
         'token',
         @options.slice(:username, :password),
-        content_type_header('x-www-form-urlencoded')
+        content_type_header('application/x-www-form-urlencoded')
       )
 
 
