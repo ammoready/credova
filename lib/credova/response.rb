@@ -11,6 +11,8 @@ module Credova
         raise Credova::Error::NotAuthorized.new(@response.body)
       when Net::HTTPNotFound
         raise Credova::Error::NotFound.new(@response.body)
+      when Net::HTTPNoContent
+        raise Credova::Error::NoContent.new(@response.body)
       else
         raise Credova::Error::RequestError.new(@response.body)
       end
