@@ -6,7 +6,7 @@ module Credova
 
       case @response
       when Net::HTTPOK, Net::HTTPSuccess
-        @data = JSON.parse(@response.body)
+        @data = JSON.parse(@response.body).deep_symbolize_keys
       when Net::HTTPUnauthorized
         raise Credova::Error::NotAuthorized.new(@response.body)
       when Net::HTTPNotFound
