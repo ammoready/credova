@@ -34,7 +34,7 @@ module Credova
     def authenticate!
       response = post_request(
         'token',
-        @options.slice(:username, :password),
+        ['username=', @options[:username], '&password=', @options[:password]].join,
         content_type_header('application/x-www-form-urlencoded')
       )
 
