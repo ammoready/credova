@@ -13,6 +13,7 @@ module Credova
       check_status_by_phone_number: "applications/phone/%s/status".freeze,
       create:                       "applications".freeze,
       set_delivery_information:     "applications/%s/deliveryinformation".freeze,
+      request_return:               "applications/%s/requestreturn".freeze,
     }
 
     def initialize(client)
@@ -53,6 +54,12 @@ module Credova
       ].to_h
 
       post_request(endpoint, options, headers)
+    end
+
+    def request_return(public_id)
+      endpoint = ENDPOINTS[:request_return] % public_id
+
+      post_request(endpoint, {}, auth_header(@client.access_token))
     end
 
   end
