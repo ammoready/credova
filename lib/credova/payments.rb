@@ -1,7 +1,7 @@
 require 'credova/api'
 
 module Credova
-  class Payments
+  module Payments
 
     extend Credova::API
 
