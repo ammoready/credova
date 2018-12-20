@@ -14,6 +14,7 @@ module Credova
       create:                       "applications".freeze,
       set_delivery_information:     "applications/%s/deliveryinformation".freeze,
       request_return:               "applications/%s/requestreturn".freeze,
+      upload_invoice:               "applications/%s/uploadinvoice".freeze,
     }
 
     def initialize(client)
@@ -60,6 +61,17 @@ module Credova
       endpoint = ENDPOINTS[:request_return] % public_id
 
       post_request(endpoint, {}, auth_header(@client.access_token))
+    end
+
+    def upload_invoice(public_id, invoice_url)
+      endpoint = ENDPOINTS[:upload_invoice] % public_id
+      data     = { form_data: ['file=@', invoice_url, '; type=application/', extract_file_extension(invoice_url)].join }
+      headers  = [
+        *auth_header(@client.access_token),
+        *content_type_header('multipart/form-data'),
+      ].to_h
+
+      post_request(endpoint, data, headers)
     end
 
   end
