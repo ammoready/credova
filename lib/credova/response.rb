@@ -12,7 +12,7 @@ module Credova
         when _data.is_a?(Hash)
           _data.deep_symbolize_keys
         when _data.is_a?(Array)
-          _data.map { |d| JSON.parse(d).deep_symbolize_keys }
+          _data.map(&:deep_symbolize_keys)
         end
       when Net::HTTPUnauthorized
         raise Credova::Error::NotAuthorized.new(@response.body)
