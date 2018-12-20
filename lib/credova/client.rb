@@ -1,5 +1,6 @@
 require 'credova/api'
 require 'credova/application'
+require 'credova/ffl'
 require 'credova/retailer'
 
 module Credova
@@ -18,6 +19,10 @@ module Credova
 
     def application
       @application ||= Credova::Application.new(self)
+    end
+
+    def ffl
+      @ffl ||= Credova::FFL.new(self)
     end
 
     def retailer
