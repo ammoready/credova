@@ -30,7 +30,7 @@ module Credova
 
     def upload_document(ffl_public_id, ffl_document_url)
       endpoint = ENDPOINTS[:upload_document] % ffl_public_id
-      data     = { form_data: ['file=@', ffl_document_url, '; type=application/', extract_file_type(ffl_document_url)].join }
+      data     = { form_data: ['file=@', ffl_document_url, '; type=application/', extract_file_extension(ffl_document_url)].join }
       headers  = [
         *auth_header(@client.access_token),
         *content_type_header('multipart/form-data'),
@@ -40,14 +40,6 @@ module Credova
     end
 
     private
-
-    def extract_file_type(ffl_document_url)
-      metadata_raw  = Net::HTTP.get(URI.parse("#{ffl_document_url}/metadata"))
-      metadata_json = JSON.parse(metadata_raw)
-      file_name     = metadata_json['filename']
-
-      file_name[(file_name.rindex('.') + 1)..-1]
-    end
 
     def format_data_for_create(data)
       {

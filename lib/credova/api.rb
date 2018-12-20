@@ -58,5 +58,13 @@ module Credova
       ].join('/')
     end
 
+    def extract_file_extension(ffl_document_url)
+      metadata_raw  = Net::HTTP.get(URI.parse("#{ffl_document_url}/metadata"))
+      metadata_json = JSON.parse(metadata_raw)
+      file_name     = metadata_json['filename']
+
+      file_name[(file_name.rindex('.') + 1)..-1]
+    end
+
   end
 end
