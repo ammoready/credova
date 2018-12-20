@@ -7,6 +7,7 @@ require 'credova/client'
 require 'credova/error'
 require 'credova/payments'
 require 'credova/response'
+require 'credova/retailer'
 
 module Credova
 

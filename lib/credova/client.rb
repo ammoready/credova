@@ -1,5 +1,6 @@
 require 'credova/api'
 require 'credova/application'
+require 'credova/retailer'
 
 module Credova
   class Client < Base
@@ -17,6 +18,10 @@ module Credova
 
     def application
       @application ||= Credova::Application.new(self)
+    end
+
+    def retailer
+      @retailer ||= Credova::Retailer.new(self)
     end
 
     private
