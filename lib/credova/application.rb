@@ -24,7 +24,7 @@ module Credova
 
       endpoint = ENDPOINTS[:create]
       headers = [
-        *auth_header(client.access_token),
+        *auth_header(@client.access_token),
         *content_type_header('application/json'),
       ].to_h
 
@@ -34,13 +34,13 @@ module Credova
     def check_status_by_public_id(public_id)
       endpoint = ENDPOINTS[:check_status_by_public_id] % public_id
 
-      get_request(endpoint, auth_header(client.access_token))
+      get_request(endpoint, auth_header(@client.access_token))
     end
 
     def check_status_by_phone_number(phone)
       endpoint = ENDPOINTS[:check_status_by_phone_number] % phone
 
-      get_request(endpoint, auth_header(client.access_token))
+      get_request(endpoint, auth_header(@client.access_token))
     end
 
     def set_delivery_information(public_id, options = {})
@@ -48,7 +48,7 @@ module Credova
 
       endpoint = ENDPOINTS[:set_delivery_information] % public_id
       headers = [
-        *auth_header(client.access_token),
+        *auth_header(@client.access_token),
         *content_type_header('application/json'),
       ].to_h
 

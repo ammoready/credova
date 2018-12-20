@@ -11,13 +11,17 @@ module Credova
       upload_document: "federallicense/%s/uploadfile".freeze,
     }
 
+    def initialize(client)
+      @client = client
+    end
+
     def create(options = {})
       requires!(options, REQUIRED_CREATE_ATTRS)
 
       endpoint = ENDPOINTS[:create]
       data = format_data_for_create(options)
       headers  = [
-        *auth_header(client.access_token),
+        *auth_header(@client.access_token),
         *content_type_header('application/json'),
       ].to_h
 
@@ -28,7 +32,7 @@ module Credova
       endpoint = ENDPOINTS[:upload_document] % ffl_public_id
       data     = { form_data: ['file=@', ffl_document_url, '; type=application/', extract_file_type(ffl_document_url)].join }
       headers  = [
-        *auth_header(client.access_token),
+        *auth_header(@client.access_token),
         *content_type_header('multipart/form-data'),
       ].to_h
 

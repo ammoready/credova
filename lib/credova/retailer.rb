@@ -17,13 +17,13 @@ module Credova
     def lenders
       endpoint = ENDPOINTS[:lenders]
 
-      get_request(endpoint, auth_header(client.access_token))
+      get_request(endpoint, auth_header(@client.access_token))
     end
 
     def stores
       endpoint = ENDPOINTS[:stores]
 
-      get_request(endpoint, auth_header(client.access_token))
+      get_request(endpoint, auth_header(@client.access_token))
     end
 
   end
