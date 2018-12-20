@@ -5,6 +5,12 @@ module Credova
       @response = response
 
       case @response
+      when Net::HTTPUnauthorized
+        Credova::Error::NotAuthorized.new(@response.body)
+      when Net::HTTPNotFound
+        Credova::Error::NotFound.new(@response.body)
+      when Net::HTTPNoContent
+        Credova::Error::NoContent.new(@response.body)
       when Net::HTTPOK, Net::HTTPSuccess
         _data = JSON.parse(@response.body)
 
@@ -14,12 +20,6 @@ module Credova
         when _data.is_a?(Array)
           _data.map(&:deep_symbolize_keys)
         end
-      when Net::HTTPUnauthorized
-        raise Credova::Error::NotAuthorized.new(@response.body)
-      when Net::HTTPNotFound
-        raise Credova::Error::NotFound.new(@response.body)
-      when Net::HTTPNoContent
-        raise Credova::Error::NoContent.new(@response.body)
       else
         raise Credova::Error::RequestError.new(@response.body)
       end
