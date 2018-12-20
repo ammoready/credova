@@ -1,7 +1,7 @@
 require 'credova/api'
 
 module Credova
-  class Application
+  class Application < Base
 
     include Credova::API
 
