@@ -1,6 +1,7 @@
 require 'credova/version'
 
 require 'credova/api'
+require 'credova/application'
 require 'credova/base'
 require 'credova/client'
 require 'credova/error'

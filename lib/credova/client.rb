@@ -1,4 +1,5 @@
 require 'credova/api'
+require 'credova/application'
 
 module Credova
   class Client < Base
@@ -12,6 +13,10 @@ module Credova
       @options = options
 
       authenticate!
+    end
+
+    def application
+      @application ||= Credova::Application.new(self)
     end
 
     private
