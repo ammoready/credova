@@ -27,7 +27,7 @@ module Credova
       set_request_headers(request, headers)
 
       uri = URI(request.path)
-      request.body = data.to_json
+      request.body = data.is_a?(Hash) ? data.to_json : data
 
       response = Net::HTTP.start(uri.host, uri.port, use_ssl: true) do |http|
         http.request(request)
