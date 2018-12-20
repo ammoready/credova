@@ -17,9 +17,12 @@ module Credova
     private
 
     def authenticate!
-      header = { 'Content-Type' => 'application/x-www-form-urlencoded' }
+      response = post_request(
+        'token',
+        @options.slice(:username, :password),
+        content_type_header('x-www-form-urlencoded')
+      )
 
-      response = post_request(:token, @options.slice(:username, :password), header)
 
       self.access_token = response.fetch[:jwt]
     end

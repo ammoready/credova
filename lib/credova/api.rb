@@ -46,6 +46,10 @@ module Credova
       { 'Authorization' => ['Bearer', token].join(' ') }
     end
 
+    def content_type_header(type)
+      { 'Content-Type' => ['application/', type].join }
+    end
+
     def request_url(endpoint)
       [
         (Credova.sandbox? ? DEVELOPMENT_URL : PRODUCTION_URL),
