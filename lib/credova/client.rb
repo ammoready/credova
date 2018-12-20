@@ -38,7 +38,7 @@ module Credova
         content_type_header('application/x-www-form-urlencoded')
       )
 
-      self.access_token = response.fetch[:jwt]
+      self.access_token = response.fetch(:jwt)
     end
 
   end
