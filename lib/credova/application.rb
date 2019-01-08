@@ -21,7 +21,7 @@ module Credova
       @client = client
     end
 
-    def create(callback_url, options = {})
+    def create(callback_url = nil, options = {})
       requires!(options, REQUIRED_CREATE_ATTRS)
 
       endpoint = ENDPOINTS[:create]
@@ -29,6 +29,8 @@ module Credova
         *auth_header(@client.access_token),
         *content_type_header('application/json'),
       ].to_h
+
+      headers['Callback-Url'] = callback_url if callback_url.present?
 
       post_request(endpoint, options, headers)
     end
