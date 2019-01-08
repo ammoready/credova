@@ -69,7 +69,7 @@ module Credova
     def standardize_body_data!(submitted_data, permitted_data_attrs)
       submitted_data.
         select! { |k, v| permitted_data_attrs.include?(k) }.
-        transform_keys! { |k| k.to_s.camelize(:lower) }
+        deep_transform_keys! { |k| k.to_s.camelize(:lower) }
     end
 
   end
