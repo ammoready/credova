@@ -66,5 +66,11 @@ module Credova
       file_name[(file_name.rindex('.') + 1)..-1]
     end
 
+    def standardize_body_data!(submitted_data, permitted_data_attrs)
+      submitted_data.
+        select! { |k, v| permitted_data_attrs.include?(k) }.
+        transform_keys! { |k| k.to_s.camelize(:lower) }
+    end
+
   end
 end

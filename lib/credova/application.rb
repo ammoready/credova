@@ -6,8 +6,17 @@ module Credova
     include Credova::API
 
     MINIMUM_FINANCING_AMOUNT = 300_00.freeze
-    REQUIRED_CREATE_ATTRS = %i( first_name last_name date_of_birth mobile_phone email )
-    REQUIRED_DELIVERY_ATTRS = %i( method address city state zip carrier tracking_number )
+
+    CREATE_ATTRS = {
+      permitted: %i( public_id store_code first_name middle_initial last_name date_of_birth mobile_phone email needed_amount address products redirect_url reference_number ).freeze,
+      required:  %i( store_code first_name last_name mobile_phone email ).freeze
+    }
+
+    SET_DELIVERY_INFORMATION_ATTRS = {
+      permitted: %i( federal_license_number method address address_2 city state zip carrier tracking_number ).freeze,
+      required:  %i( method address city state zip carrier tracking_number ).freeze
+    }
+
     ENDPOINTS = {
       check_status_by_public_id:    "applications/%s/status".freeze,
       check_status_by_phone_number: "applications/phone/%s/status".freeze,
@@ -21,8 +30,8 @@ module Credova
       @client = client
     end
 
-    def create(callback_url = nil, options = {})
-      requires!(options, REQUIRED_CREATE_ATTRS)
+    def create(application_data, callback_url = nil)
+      requires!(application_data, CREATE_ATTRS[:required])
 
       endpoint = ENDPOINTS[:create]
       headers = [
@@ -32,7 +41,9 @@ module Credova
 
       headers['Callback-Url'] = callback_url if callback_url.present?
 
-      post_request(endpoint, options, headers)
+      standardize_body_data!(application_data, CREATE_ATTRS[:permitted])
+
+      post_request(endpoint, application_data, headers)
     end
 
     def check_status_by_public_id(public_id)
@@ -47,8 +58,8 @@ module Credova
       get_request(endpoint, auth_header(@client.access_token))
     end
 
-    def set_delivery_information(public_id, options = {})
-      requires!(options, REQUIRED_DELIVERY_ATTRS)
+    def set_delivery_information(public_id, delivery_data)
+      requires!(delivery_data, SET_DELIVERY_INFORMATION_ATTRS[:required])
 
       endpoint = ENDPOINTS[:set_delivery_information] % public_id
       headers = [
@@ -56,7 +67,9 @@ module Credova
         *content_type_header('application/json'),
       ].to_h
 
-      post_request(endpoint, options, headers)
+      standardize_body_data!(delivery_data, SET_DELIVERY_INFORMATION_ATTRS[:permitted])
+
+      post_request(endpoint, delivery_data, headers)
     end
 
     def request_return(public_id)
