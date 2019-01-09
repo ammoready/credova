@@ -30,7 +30,7 @@ module Credova
       @client = client
     end
 
-    def self.create(application_data, callback_url = nil)
+    def create(application_data, callback_url = nil)
       requires!(application_data, CREATE_ATTRS[:required])
 
       endpoint = ENDPOINTS[:create]
@@ -46,7 +46,7 @@ module Credova
       post_request(endpoint, application_data, headers)
     end
 
-    def self.check_status_by_public_id(public_id)
+    def check_status_by_public_id(public_id)
       endpoint = ENDPOINTS[:check_status_by_public_id] % public_id
 
       get_request(endpoint, auth_header(@client.access_token))
@@ -58,7 +58,7 @@ module Credova
       get_request(endpoint, auth_header(@client.access_token))
     end
 
-    def self.set_delivery_information(public_id, delivery_data)
+    def set_delivery_information(public_id, delivery_data)
       requires!(delivery_data, SET_DELIVERY_INFORMATION_ATTRS[:required])
 
       endpoint = ENDPOINTS[:set_delivery_information] % public_id
@@ -72,13 +72,13 @@ module Credova
       post_request(endpoint, delivery_data, headers)
     end
 
-    def self.request_return(public_id)
+    def request_return(public_id)
       endpoint = ENDPOINTS[:request_return] % public_id
 
       post_request(endpoint, {}, auth_header(@client.access_token))
     end
 
-    def self.upload_invoice(public_id, invoice_url)
+    def upload_invoice(public_id, invoice_url)
       endpoint = ENDPOINTS[:upload_invoice] % public_id
       data     = { form_data: ['file=@', invoice_url, '; type=application/', extract_file_extension(invoice_url)].join }
       headers  = [
