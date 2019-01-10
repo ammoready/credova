@@ -41,7 +41,7 @@ module Credova
 
       headers['Callback-Url'] = callback_url if callback_url.present?
 
-      standardize_body_data!(application_data, CREATE_ATTRS[:permitted])
+      application_data = standardize_body_data(application_data, CREATE_ATTRS[:permitted])
 
       post_request(endpoint, application_data, headers)
     end
@@ -67,7 +67,7 @@ module Credova
         *content_type_header('application/json'),
       ].to_h
 
-      standardize_body_data!(delivery_data, SET_DELIVERY_INFORMATION_ATTRS[:permitted])
+      delivery_data = standardize_body_data(delivery_data, SET_DELIVERY_INFORMATION_ATTRS[:permitted])
 
       post_request(endpoint, delivery_data, headers)
     end

@@ -29,7 +29,7 @@ module Credova
         *content_type_header('application/json'),
       ].to_h
 
-      standardize_body_data!(ffl_data, CREATE_ATTRS[:permitted])
+      ffl_data = standardize_body_data(ffl_data, CREATE_ATTRS[:permitted])
 
       post_request(endpoint, ffl_data, headers)
     end
