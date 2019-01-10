@@ -5,7 +5,11 @@ module Credova
 
     include Credova::API
 
-    REQUIRED_CREATE_ATTRS = %i( license_number expiration address_one city state zip )
+    CREATE_ATTRS = {
+      permitted: %i( license_number expiration address address_2 city state zip ).freeze,
+      required:  %i( license_number expiration address city state zip ).freeze,
+    }
+
     ENDPOINTS = {
       create:          "federallicense".freeze,
       upload_document: "federallicense/%s/uploadfile".freeze,
@@ -15,17 +19,19 @@ module Credova
       @client = client
     end
 
-    def create(options = {})
-      requires!(options, REQUIRED_CREATE_ATTRS)
+    def create(ffl_data)
+      requires!(options, *REQUIRED_CREATE_ATTRS)
 
+      ffl_data[:expiration] = ffl_data[:expiration].strftime('%Y/%m/%d')
       endpoint = ENDPOINTS[:create]
-      data = format_data_for_create(options)
       headers  = [
         *auth_header(@client.access_token),
         *content_type_header('application/json'),
       ].to_h
 
-      post_request(endpoint, data, headers)
+      standardize_body_data!(ffl_data, CREATE_ATTRS[:permitted])
+
+      post_request(endpoint, ffl_data, headers)
     end
 
     def upload_document(ffl_public_id, ffl_document_url)
@@ -37,20 +43,6 @@ module Credova
       ].to_h
 
       post_request(endpoint, data, headers)
-    end
-
-    private
-
-    def format_data_for_create(data)
-      {
-        licenseNumber: data[:license_number],
-        expiration:    data[:expiration].strftime('%Y/%m/%d'),
-        address:       data[:address_one],
-        address2:      data[:address_two],
-        city:          data[:city],
-        state:         data[:state],
-        zip:           data[:zip],
-      }
     end
 
   end
