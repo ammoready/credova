@@ -31,7 +31,7 @@ module Credova
     end
 
     def create(application_data, callback_url = nil)
-      requires!(application_data, CREATE_ATTRS[:required])
+      requires!(application_data, *CREATE_ATTRS[:required])
 
       endpoint = ENDPOINTS[:create]
       headers = [
@@ -59,7 +59,7 @@ module Credova
     end
 
     def set_delivery_information(public_id, delivery_data)
-      requires!(delivery_data, SET_DELIVERY_INFORMATION_ATTRS[:required])
+      requires!(delivery_data, *SET_DELIVERY_INFORMATION_ATTRS[:required])
 
       endpoint = ENDPOINTS[:set_delivery_information] % public_id
       headers = [
