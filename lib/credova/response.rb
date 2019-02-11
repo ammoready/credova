@@ -15,7 +15,7 @@ module Credova
         Credova::Error::NoContent.new(@response.body)
       when Net::HTTPOK, Net::HTTPSuccess
         self.success = true
-        _data = JSON.parse(@response.body)
+        _data = (JSON.parse(@response.body) if @response.body.present?)
 
         @data = case
         when _data.is_a?(Hash)
