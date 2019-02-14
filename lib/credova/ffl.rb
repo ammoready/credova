@@ -20,7 +20,7 @@ module Credova
     end
 
     def create(ffl_data)
-      requires!(options, *REQUIRED_CREATE_ATTRS)
+      requires!(ffl_data, *REQUIRED_CREATE_ATTRS)
 
       ffl_data[:expiration] = ffl_data[:expiration].strftime('%Y/%m/%d')
       endpoint = ENDPOINTS[:create]
