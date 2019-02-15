@@ -6,6 +6,7 @@ module Credova
     include Credova::API
 
     MINIMUM_FINANCING_AMOUNT = 300_00.freeze
+    MAXIMUM_FINANCING_AMOUNT = 5000_00.freeze
 
     CREATE_ATTRS = {
       permitted: %i( public_id store_code first_name middle_initial last_name date_of_birth mobile_phone email needed_amount address products redirect_url reference_number ).freeze,
