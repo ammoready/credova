@@ -12,6 +12,7 @@ module Credova
 
     ENDPOINTS = {
       create:          "federallicense".freeze,
+      find:            "federallicense/licensenumber/%s".freeze,
       upload_document: "federallicense/%s/uploadfile".freeze,
     }
 
@@ -32,6 +33,12 @@ module Credova
       ffl_data = standardize_body_data(ffl_data, CREATE_ATTRS[:permitted])
 
       post_request(endpoint, ffl_data, headers)
+    end
+
+    def find(license_number)
+      endpoint = ENDPOINTS[:find] % license_number
+
+      get_request(endpoint, auth_header(@client.access_token))
     end
 
     def upload_document(ffl_public_id, ffl_document_url)
