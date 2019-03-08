@@ -41,15 +41,12 @@ module Credova
       get_request(endpoint, auth_header(@client.access_token))
     end
 
-    def upload_document(ffl_public_id, ffl_document_url)
-      endpoint = ENDPOINTS[:upload_document] % ffl_public_id
-      data     = { form_data: ['file=@', ffl_document_url, '; type=application/', extract_file_extension(ffl_document_url)].join }
-      headers  = [
-        *auth_header(@client.access_token),
-        *content_type_header('multipart/form-data'),
-      ].to_h
+    def upload_document(ffl_public_id, ffl_file_data)
+      requires!(ffl_file_data, *FILE_UPLOAD_ATTRS[:required])
 
-      post_request(endpoint, data, headers)
+      endpoint = ENDPOINTS[:upload_document] % ffl_public_id
+
+      post_file_request(endpoint, ffl_file_data, auth_header(@client.access_token))
     end
 
   end
