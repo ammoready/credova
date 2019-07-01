@@ -9,7 +9,7 @@ module Credova
     MAXIMUM_FINANCING_AMOUNT = 5000_00.freeze
 
     CREATE_ATTRS = {
-      permitted: %i( public_id store_code first_name middle_initial last_name date_of_birth mobile_phone email needed_amount address products redirect_url reference_number ).freeze,
+      permitted: %i( public_id store_code first_name middle_initial last_name date_of_birth mobile_phone email address products redirect_url reference_number ).freeze,
       required:  %i( store_code first_name last_name mobile_phone email ).freeze
     }
 
