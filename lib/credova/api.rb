@@ -3,7 +3,7 @@ require 'net/http'
 module Credova
   module API
 
-    DEVELOPMENT_URL = 'https://staging-lending-api.credova.com'.freeze
+    DEVELOPMENT_URL = 'https://sandbox-lending-api.credova.com'.freeze
     PRODUCTION_URL = 'https://lending-api.credova.com'.freeze
     API_VERSION = 'v2'.freeze
 
