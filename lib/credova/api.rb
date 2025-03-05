@@ -3,7 +3,7 @@ require 'net/http'
 module Credova
   module API
 
-    DEVELOPMENT_URL = 'https://staging-lending-api.credova.com'.freeze
+    DEVELOPMENT_URL = 'https://sandbox-lending-api.credova.com'.freeze
     PRODUCTION_URL = 'https://lending-api.credova.com'.freeze
     API_VERSION = 'v2'.freeze
 
@@ -14,10 +14,10 @@ module Credova
       reqired:   %i( file_type file_contents ).freeze,
     }
 
-    def get_request(endpoint, headers = {})
+    def get_request(endpoint, headers = {}, with_body=true)
       request = Net::HTTP::Get.new(request_url(endpoint))
 
-      submit_request(request, {}, headers)
+      submit_request(request, {}, headers, with_body)
     end
 
     def post_request(endpoint, data = {}, headers = {})
@@ -34,10 +34,12 @@ module Credova
 
     private
 
-    def submit_request(request, data, headers)
+    def submit_request(request, data, headers, with_body=true)
       set_request_headers(request, headers)
 
-      request.body = data.is_a?(Hash) ? data.to_json : data
+      if with_body
+        request.body = data.is_a?(Hash) ? data.to_json : data
+      end
 
       process_request(request)
     end

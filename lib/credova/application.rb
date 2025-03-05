@@ -47,10 +47,10 @@ module Credova
       post_request(endpoint, application_data, headers)
     end
 
-    def check_status_by_public_id(public_id)
+    def check_status_by_public_id(public_id, with_body=true)
       endpoint = ENDPOINTS[:check_status_by_public_id] % public_id
 
-      get_request(endpoint, auth_header(@client.access_token))
+      get_request(endpoint, auth_header(@client.access_token), with_body)
     end
 
     def check_status_by_phone_number(phone)
